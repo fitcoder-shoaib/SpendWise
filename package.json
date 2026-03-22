@@ -1,0 +1,31 @@
+{
+  "name": "smart-spending-auto-saving-api",
+  "version": "1.0.0",
+  "description": "Hackathon-friendly fintech MVP backend with AI insights and social leaderboard.",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "seed": "node src/scripts/seedMockData.js",
+    "check": "node --check src/server.js"
+  },
+  "keywords": [
+    "fintech",
+    "express",
+    "mongodb",
+    "openai",
+    "hackathon"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.0",
+    "morgan": "^1.10.0",
+    "openai": "^4.86.1"
+  }
+}
