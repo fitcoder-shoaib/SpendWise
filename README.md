@@ -17,7 +17,7 @@ SpendWise/
 Copy and paste this exactly:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/fitcoder-shoaib/SpendWise.git
 cd SpendWise
 npm install
 npm run setup
