@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import { sendChatMessage } from "./services/chatService";
@@ -921,5 +922,22 @@ export default function App() {
         />
       ) : null}
     </main>
+=======
+import { AuthProvider, useAuth } from "./context/AuthContext";
+import DashboardScreen from "./screens/DashboardScreen";
+import LoginPanel from "./components/LoginPanel";
+import "./styles.css";
+
+function AppShell() {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <DashboardScreen /> : <LoginPanel />;
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppShell />
+    </AuthProvider>
+>>>>>>> 1bff132 (what you changed)
   );
 }

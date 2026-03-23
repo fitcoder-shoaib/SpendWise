@@ -1,4 +1,5 @@
 :root {
+<<<<<<< HEAD
   --ink: #162538;
   --muted: #607185;
   --paper: #f7f3e8;
@@ -20,6 +21,18 @@
   --danger: #ff8f86;
   --panel-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
   --border-soft: rgba(237, 244, 255, 0.1);
+=======
+  --ink: #132238;
+  --muted: #5f7084;
+  --paper: #f7f4ec;
+  --card: rgba(255, 255, 255, 0.82);
+  --line: rgba(19, 34, 56, 0.08);
+  --accent: #0f9d7a;
+  --accent-dark: #0b755b;
+  --warm: #ff9d5c;
+  --danger: #c24e3f;
+  --shadow: 0 24px 60px rgba(19, 34, 56, 0.12);
+>>>>>>> 1bff132 (what you changed)
 }
 
 * {
@@ -28,6 +41,7 @@
 
 body {
   margin: 0;
+<<<<<<< HEAD
   color: var(--ink);
   font-family: "Avenir Next", "Gill Sans", sans-serif;
   background:
@@ -361,10 +375,242 @@ button {
 }
 
 .error,
+=======
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(255, 157, 92, 0.25), transparent 28%),
+    radial-gradient(circle at top right, rgba(15, 157, 122, 0.22), transparent 24%),
+    linear-gradient(135deg, #f4efe3 0%, #eef6f4 48%, #eef2f7 100%);
+  min-height: 100vh;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  border: none;
+  border-radius: 16px;
+  background: var(--accent);
+  color: white;
+  padding: 0.9rem 1.2rem;
+  cursor: pointer;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  background: var(--accent-dark);
+}
+
+input,
+select {
+  width: 100%;
+  margin-top: 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: rgba(255, 255, 255, 0.94);
+}
+
+label {
+  display: block;
+  font-weight: 600;
+}
+
+.eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--accent-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+}
+
+.lead {
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 42rem;
+}
+
+.lead.small {
+  margin-top: 0;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-shell,
+.loading-state {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+}
+
+.login-card,
+.card {
+  backdrop-filter: blur(12px);
+  background: var(--card);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: var(--shadow);
+}
+
+.login-card {
+  width: min(100%, 30rem);
+  padding: 2.25rem;
+  border-radius: 28px;
+}
+
+.login-card h1,
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1;
+}
+
+.dashboard-shell {
+  padding: 2rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.hero-actions {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 12rem;
+}
+
+.hero-badge {
+  padding: 1rem 1.1rem;
+  border-radius: 20px;
+  background: rgba(19, 34, 56, 0.92);
+  color: white;
+}
+
+.hero-badge span {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.ghost-button {
+  background: rgba(255, 255, 255, 0.8);
+  color: var(--ink);
+}
+
+.stats-grid,
+.dashboard-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.dashboard-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.stat-card,
+.section-card {
+  border-radius: 24px;
+  padding: 1.35rem;
+}
+
+.stat-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 2rem;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.section-header h2 {
+  margin: 0;
+}
+
+.simple-list {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0;
+  margin: 0;
+}
+
+.simple-list li {
+  margin-left: 1rem;
+  color: var(--muted);
+}
+
+.list-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.list-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
+.pill {
+  display: inline-flex;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(15, 157, 122, 0.12);
+  color: var(--accent-dark);
+  font-size: 0.92rem;
+}
+
+.progress-copy,
+.income-copy,
+.expense-copy {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.income-copy {
+  color: var(--accent-dark);
+}
+
+.expense-copy,
+.error-text,
+>>>>>>> 1bff132 (what you changed)
 .error-banner {
   color: var(--danger);
 }
 
+<<<<<<< HEAD
 .error-banner,
 .success-banner {
   margin-bottom: 16px;
@@ -391,5 +637,20 @@ button {
 
   .span-two {
     grid-column: auto;
+=======
+.banner {
+  margin-bottom: 1rem;
+  padding: 1rem 1.1rem;
+  border-radius: 18px;
+  background: rgba(194, 78, 63, 0.1);
+}
+
+@media (max-width: 960px) {
+  .stats-grid,
+  .dashboard-grid,
+  .hero {
+    grid-template-columns: 1fr;
+    display: grid;
+>>>>>>> 1bff132 (what you changed)
   }
 }

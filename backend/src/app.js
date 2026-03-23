@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const path = require("path");
 const dotenv = require("dotenv");
 const express = require("express");
@@ -285,10 +286,34 @@ function getUserTransactions(userId) {
 function getUserGoals(userId) {
   return store.goals.filter((goal) => goal.userId === userId);
 }
+=======
+require("./config/env");
+
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
+
+const authRoutes = require("./routes/auth");
+const transactionRoutes = require("./routes/transactions");
+const savingsRoutes = require("./routes/savings");
+const goalsRoutes = require("./routes/goals");
+const aiRoutes = require("./routes/ai");
+const leaderboardRoutes = require("./routes/leaderboard");
+const dashboardRoutes = require("./routes/dashboard");
+const errorHandler = require("./middleware/errorHandler");
+const env = require("./config/env");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+>>>>>>> 1bff132 (what you changed)
 
 app.get("/health", (req, res) => {
   res.json({
     success: true,
+<<<<<<< HEAD
     message: "SpendWise backend is running.",
     backend: `http://localhost:${PORT}`,
     frontend: "http://localhost:3000"
@@ -435,10 +460,18 @@ app.put("/api/savings/settings", requireAuth, (req, res) => {
     savingsSettings: {
       dailyLimit: req.user.dailyLimit,
       fixedMonthlySaving: req.user.fixedMonthlySaving
+=======
+    name: "SpendWise API",
+    message: "SpendWise backend is running.",
+    demoUser: {
+      email: "demo@spendwise.app",
+      password: "demo123"
+>>>>>>> 1bff132 (what you changed)
     }
   });
 });
 
+<<<<<<< HEAD
 app.post("/api/savings/fixed-monthly", requireAuth, (req, res) => {
   const amount = parsePositiveAmount(req.body?.amount || req.user.fixedMonthlySaving);
 
@@ -601,4 +634,19 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`SpendWise backend running on http://localhost:${PORT}`);
+=======
+app.use("/api/auth", authRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/savings", savingsRoutes);
+app.use("/api/goals", goalsRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/ai", aiRoutes);
+app.use("/api/ai-insights", aiRoutes);
+
+app.use(errorHandler);
+
+app.listen(env.port, () => {
+  console.log(`SpendWise backend running on http://localhost:${env.port}`);
+>>>>>>> 1bff132 (what you changed)
 });
