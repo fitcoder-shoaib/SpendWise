@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import ChatPanel from "./components/ChatPanel";
 import { sendChatMessage } from "./services/chatService";
@@ -47,6 +46,7 @@ function LoginScreen({ mode, setMode, form, setForm, onSubmit, error, loading, t
         <p className="subcopy">
           AI-powered spending control, smart auto-saving, and social savings competition in one dashboard.
         </p>
+        <p className="tagline">"Same income, smarter outcome."</p>
 
         <div className="criteria-box">
           <strong>Login criteria</strong>
@@ -542,6 +542,7 @@ export default function App() {
         <div>
           <p className="eyebrow">AI-powered smart spending</p>
           <h1>SpendWise</h1>
+          <p className="tagline">"Same income, smarter outcome."</p>
           <p className="subcopy">
             Welcome back, {user.name}. Move between tabs to manage spending, savings, goals, and your social leaderboard.
           </p>
@@ -922,22 +923,5 @@ export default function App() {
         />
       ) : null}
     </main>
-=======
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import DashboardScreen from "./screens/DashboardScreen";
-import LoginPanel from "./components/LoginPanel";
-import "./styles.css";
-
-function AppShell() {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <DashboardScreen /> : <LoginPanel />;
-}
-
-export default function App() {
-  return (
-    <AuthProvider>
-      <AppShell />
-    </AuthProvider>
->>>>>>> 1bff132 (what you changed)
   );
 }

@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const env = require("../config/env");
 const { addUser, findUserByEmail } = require("../services/dataStore");
+const { hashPassword, verifyPassword } = require("../utils/password");
 
 function signToken(userId) {
   return jwt.sign({ userId }, env.jwtSecret, { expiresIn: "7d" });
@@ -17,51 +18,64 @@ function sanitizeUser(user) {
   };
 }
 
-function signup(req, res) {
-  const { name, email, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(400).json({ success: false, message: "Name, email, and password are required." });
-  }
-
-  if (findUserByEmail(email)) {
-    return res.status(409).json({ success: false, message: "User already exists." });
-  }
-
-  const user = addUser({
-    name,
-    email: email.toLowerCase(),
-    password,
-    savingsSettings: {
-      fixedMonthlySavings: 3000,
-      dailySpendingLimit: 2000,
-      autoRoundOff: true,
-      dailyAutoSaveThreshold: 1200,
-      dailyAutoSaveAmount: 120,
-      leaderboardShowPercentage: true
-    }
-  });
-
-  return res.status(201).json({
-    success: true,
-    token: signToken(user.id),
-    user: sanitizeUser(user)
-  });
+function isValidEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
 }
 
-function login(req, res) {
-  const { email, password } = req.body;
-  const user = findUserByEmail(email || "");
+async function signup(req, res, next) {
+  try {
+    const { name, email, password } = req.body || {};
+    const normalizedEmail = String(email || "").trim().toLowerCase();
 
-  if (!user || user.password !== password) {
-    return res.status(401).json({ success: false, message: "Invalid email or password." });
+    if (!name || !normalizedEmail || !password) {
+      return res.status(400).json({ success: false, message: "Name, email, and password are required." });
+    }
+
+    if (!isValidEmail(normalizedEmail)) {
+      return res.status(400).json({ success: false, message: "Please provide a valid email address." });
+    }
+
+    if (String(password).length < 6) {
+      return res.status(400).json({ success: false, message: "Password must be at least 6 characters long." });
+    }
+
+    if (await findUserByEmail(normalizedEmail)) {
+      return res.status(409).json({ success: false, message: "User already exists." });
+    }
+
+    const user = await addUser({
+      name: String(name).trim(),
+      email: normalizedEmail,
+      passwordHash: hashPassword(password)
+    });
+
+    return res.status(201).json({
+      success: true,
+      token: signToken(user.id),
+      user: sanitizeUser(user)
+    });
+  } catch (error) {
+    return next(error);
   }
+}
 
-  return res.json({
-    success: true,
-    token: signToken(user.id),
-    user: sanitizeUser(user)
-  });
+async function login(req, res, next) {
+  try {
+    const { email, password } = req.body || {};
+    const user = await findUserByEmail(email || "");
+
+    if (!user || !verifyPassword(password, user.passwordHash)) {
+      return res.status(401).json({ success: false, message: "Invalid email or password." });
+    }
+
+    return res.json({
+      success: true,
+      token: signToken(user.id),
+      user: sanitizeUser(user)
+    });
+  } catch (error) {
+    return next(error);
+  }
 }
 
 function me(req, res) {

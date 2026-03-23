@@ -1,14 +1,12 @@
-const { getFriends } = require("./dataStore");
-
-function buildWeeklyLeaderboard(currentUser) {
+function buildWeeklyLeaderboard(currentUser, friends = [], savingsLedger = []) {
   return [
     {
       id: currentUser.id,
       name: `${currentUser.name} (You)`,
       weeklySavings: currentUser.weeklySavings,
-      streak: currentUser.savingsLedger.length
+      streak: savingsLedger.length
     },
-    ...getFriends()
+    ...friends
   ]
     .sort((left, right) => right.weeklySavings - left.weeklySavings)
     .map((entry, index) => ({

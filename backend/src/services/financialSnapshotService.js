@@ -1,9 +1,6 @@
 function buildFinancialSnapshot({ user, transactions, goals }) {
-  // This deterministic layer runs before GPT so we can flag obvious money risks consistently.
-  const userTransactions = transactions.filter((item) => item.userId === user.id);
-  const expenses = userTransactions.filter((item) => item.type === "expense");
-  const income = userTransactions.filter((item) => item.type === "income");
-  const userGoals = goals.filter((goal) => goal.userId === user.id);
+  const expenses = transactions.filter((item) => item.type === "expense");
+  const income = transactions.filter((item) => item.type === "income");
 
   const totalExpense = expenses.reduce((sum, item) => sum + Number(item.amount), 0);
   const totalIncome = income.reduce((sum, item) => sum + Number(item.amount), 0);
@@ -19,7 +16,7 @@ function buildFinancialSnapshot({ user, transactions, goals }) {
 
   const foodSpend = categoryTotals.food || 0;
   const foodSpendRatio = totalExpense > 0 ? foodSpend / totalExpense : 0;
-  const savingsRate = totalIncome > 0 ? user.savings / totalIncome : 0;
+  const savingsRate = totalIncome > 0 ? user.totalSavings / totalIncome : 0;
 
   const flags = [];
   if (foodSpendRatio > 0.4) {
@@ -39,13 +36,13 @@ function buildFinancialSnapshot({ user, transactions, goals }) {
     totals: {
       totalExpense,
       totalIncome,
-      totalSavings: user.savings,
+      totalSavings: user.totalSavings,
       weeklySavings: user.weeklySavings,
       savingsRate: Number((savingsRate * 100).toFixed(1)),
       foodSpendRatio: Number((foodSpendRatio * 100).toFixed(1))
     },
     topCategories,
-    goals: userGoals.map((goal) => ({
+    goals: goals.map((goal) => ({
       id: goal.id,
       name: goal.name,
       targetAmount: goal.targetAmount,

@@ -1,12 +1,9 @@
-const { getTransactions } = require("../services/dataStore");
+const { listTransactionsByUser } = require("../services/dataStore");
 const { getAIInsights } = require("../services/aiService");
 
 async function getInsights(req, res, next) {
   try {
-    const transactions = getTransactions()
-      .filter((transaction) => transaction.userId === req.user.id)
-      .sort((left, right) => new Date(right.date) - new Date(left.date));
-
+    const transactions = await listTransactionsByUser(req.user.id);
     const insights = await getAIInsights(transactions);
 
     res.json({

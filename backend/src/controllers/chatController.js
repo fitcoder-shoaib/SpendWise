@@ -3,7 +3,7 @@ const { buildFinancialSnapshot } = require("../services/financialSnapshotService
 const { getFinanceAssistantReply } = require("../services/openaiChatService");
 
 function createChatController({ getUserTransactions, getUserGoals, openAiApiKey, openAiModel }) {
-  return async function chatController(req, res) {
+  return async function chatController(req, res, next) {
     try {
       const { message, history } = sanitizeChatInput(req.body);
 
@@ -14,10 +14,15 @@ function createChatController({ getUserTransactions, getUserGoals, openAiApiKey,
         });
       }
 
+      const [transactions, goals] = await Promise.all([
+        getUserTransactions(req.user.id),
+        getUserGoals(req.user.id)
+      ]);
+
       const snapshot = buildFinancialSnapshot({
         user: req.user,
-        transactions: getUserTransactions(req.user.id),
-        goals: getUserGoals(req.user.id)
+        transactions,
+        goals
       });
 
       const chat = await getFinanceAssistantReply({
@@ -38,10 +43,7 @@ function createChatController({ getUserTransactions, getUserGoals, openAiApiKey,
         }
       });
     } catch (error) {
-      return res.status(500).json({
-        success: false,
-        message: "Unable to process chat right now."
-      });
+      return next(error);
     }
   };
 }

@@ -33,8 +33,8 @@ export default function ChatPanel({
   }
 
   return (
-    <section className="grid two-up">
-      <article className="panel">
+    <section className="coach-layout">
+      <article className="panel coach-main">
         <div className="section-title">
           <p className="eyebrow">AI Coach</p>
           <h2>Ask SpendWise anything</h2>
@@ -44,18 +44,21 @@ export default function ChatPanel({
         </div>
 
         {!messages.length ? (
-          <div className="prompt-strip">
-            {starterPrompts.map((prompt) => (
-              <button
-                key={prompt}
-                type="button"
-                className="prompt-chip"
-                onClick={() => onSend(prompt)}
-                disabled={loading}
-              >
-                {prompt}
-              </button>
-            ))}
+          <div className="coach-starters">
+            <p className="helper">Try one of these to get a focused answer faster.</p>
+            <div className="prompt-strip">
+              {starterPrompts.map((prompt) => (
+                <button
+                  key={prompt}
+                  type="button"
+                  className="prompt-chip"
+                  onClick={() => onSend(prompt)}
+                  disabled={loading}
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
           </div>
         ) : null}
 
@@ -85,25 +88,31 @@ export default function ChatPanel({
                   </div>
                 ) : null}
                 {message.role === "assistant" && message.recommendedActions?.length ? (
-                  <ul className="list bullets compact-list">
-                    {message.recommendedActions.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
+                  <div className="coach-actions">
+                    <p className="helper">Best next steps</p>
+                    <ul className="list bullets compact-list">
+                      {message.recommendedActions.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
                 ) : null}
                 {message.role === "assistant" && message.followUpPrompts?.length ? (
-                  <div className="prompt-strip">
-                    {message.followUpPrompts.map((prompt) => (
-                      <button
-                        key={prompt}
-                        type="button"
-                        className="prompt-chip"
-                        onClick={() => onSend(prompt)}
-                        disabled={loading}
-                      >
-                        {prompt}
-                      </button>
-                    ))}
+                  <div className="coach-follow-ups">
+                    <p className="helper">Ask a follow-up</p>
+                    <div className="prompt-strip">
+                      {message.followUpPrompts.map((prompt) => (
+                        <button
+                          key={prompt}
+                          type="button"
+                          className="prompt-chip"
+                          onClick={() => onSend(prompt)}
+                          disabled={loading}
+                        >
+                          {prompt}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 ) : null}
               </div>
@@ -116,7 +125,7 @@ export default function ChatPanel({
           )}
         </div>
 
-        <form className="stack" onSubmit={handleSubmit}>
+        <form className="stack coach-composer" onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="How can I reduce food spending this month?"
@@ -129,7 +138,7 @@ export default function ChatPanel({
         </form>
       </article>
 
-      <article className="panel">
+      <aside className="panel coach-sidebar">
         <div className="section-title">
           <p className="eyebrow">Logic Layer</p>
           <h2>Pre-GPT insights</h2>
@@ -138,7 +147,7 @@ export default function ChatPanel({
           </p>
         </div>
 
-        <div className="stack">
+        <div className="coach-sidebar-stack">
           {financialSummary ? (
             <div className="mini-metric">
               <span>Snapshot</span>
@@ -147,14 +156,16 @@ export default function ChatPanel({
               </strong>
             </div>
           ) : null}
+
           <div className="mini-metric">
             <span>Top categories</span>
             <strong>{topCategories.length ? topCategories.map((item) => item.category).join(", ") : "No data yet"}</strong>
           </div>
-          <div className="list">
+
+          <div className="coach-insight-list">
             {logicInsights.length ? (
               logicInsights.map((item) => (
-                <div key={item.type} className="row">
+                <div key={item.type} className="coach-insight-card">
                   <span>{item.type}</span>
                   <strong>{item.message}</strong>
                 </div>
@@ -167,7 +178,7 @@ export default function ChatPanel({
             )}
           </div>
         </div>
-      </article>
+      </aside>
     </section>
   );
 }
